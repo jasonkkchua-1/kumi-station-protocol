@@ -2,7 +2,7 @@
 
 *Speaking without words, meanings meeting at the station.*
 
-Two small local language models from different families play a Lewis signaling game and are tested — once, and only once per run — on whether the code they invented generalizes to an object neither of them has ever named. Everything needed to check the claims ships in this repository, including an independent auditor.
+Two small local language models from different families play a Lewis signaling game and are tested — once, and only once per run — on whether the code they invented generalizes to an object neither of them has ever named. Everything needed to check the claims ships in this repository, including an independent auditor. Described by an external cross-model review (Gemini 3.1 Pro, 2026-07-17) as a "trustless framework."
 
 ## The Kumi Station Protocol
 
@@ -16,12 +16,20 @@ A pre-registration discipline for one-shot emergent-language tests:
 
 ## Pre-committed interpretation table
 
+The four rows below are **as pre-registered**, committed before any run:
+
 | Outcome | Reading |
 |---|---|
 | compositional + predicted word + hit | **Genuine composition**: the pair built a *syntax*, and the receiver parsed a word it had never seen from its parts. |
 | hit but word not predicted | **Inference by elimination**: object 4 is the only unused option, so the receiver can be right without any grammar. |
 | holistic + miss | **The known default** for emergent languages: whole-word codes that don't generalize to novel objects. |
 | compositional + miss | **A one-sided grammar**: the sender coded systematically but the receiver never learned to decode it compositionally. |
+
+> **Post-hoc addition (2026-07-17, following external review by Gemini 3.1 Pro)** — a fifth outcome class the pre-registration did not distinguish:
+>
+> | Outcome | Reading |
+> |---|---|
+> | compositional lexicon + unpredicted word + miss | **Sender-side breakdown**: the training lexicon was compositional, but the sender abandoned its own grammar at test time, so the receiver never saw the predicted word. |
 
 ## Setup
 
@@ -42,9 +50,13 @@ A pre-registration discipline for one-shot emergent-language tests:
 
 Converged to fluency **5/5** · compositional lexicon **2/5** · zero-shot hit **0/5** · predicted-word-and-hit **0/5**.
 
+> **Post-hoc amendment (2026-07-17, following external review by Gemini 3.1 Pro):** by the fifth interpretation row above, run 4 is reclassified from *one-sided grammar* (compositional + miss) to *sender-side breakdown* (compositional lexicon + unpredicted word + miss): its lexicon satisfied the rule, but the word actually sent (■▲) was not the predicted ■■. The run-4 data is unchanged; only its reading is refined. Run 3 remains the only *one-sided grammar* case — its sender did produce the predicted word.
+
 ### What run 3 is — and is not
 
 Run 3 is a case of **"compositional transfer" on the sender side**: the pair's training lexicon satisfied the pre-registered compositional rule, the rule predicted ●■ for the never-named blue square, and when the moment came the sender produced exactly ●■. The receiver, however, guessed #1 — by the pre-committed table this is a *one-sided grammar*, not genuine two-sided composition. We report it in scare quotes and alongside the misses deliberately: 3 of 5 runs produced holistic codes that did not generalize, run 4's compositional sender deviated from its own grammar at test time, and no run produced a zero-shot hit. These are two cross-family 4B-parameter models on consumer hardware; the honest headline is that one directional half of compositional generalization appeared once in five runs under a pre-registered test — nothing more, and verifiably nothing less.
+
+> **Post-hoc amendment (2026-07-17, following external review by Gemini 3.1 Pro):** under a uniform-random null, a sender emitting an arbitrary two-symbol word from ▲ ● ■ matches a pre-registered prediction with probability 1/9 per compositional run — about 21% for at least one match across this campaign's two compositional runs. That base rate is one reason this pilot claims **an anomaly worth follow-up, not a finding**.
 
 ## Verification
 
@@ -53,6 +65,14 @@ Run 3 is a case of **"compositional transfer" on the sender side**: the pair's t
 ```
 python3 audit.py   # exits non-zero if any claim fails
 ```
+
+## Limitations
+
+*Section added 2026-07-17 as a post-hoc amendment, following external review by Gemini 3.1 Pro.*
+
+1. **Family × role entanglement — conceded.** Gemma always sent and Qwen always received, so no failure in this campaign can be attributed to model family versus role versus architecture. The role-swap campaign (Qwen sends, Gemma receives) and same-family baselines (Gemma×Gemma, Qwen×Qwen) are the planned controls — see the open issues.
+2. **On the "lobotomized receiver" concern — rebutted.** Stripping Qwen's `<think>` blocks did not remove its reasoning: the receiver reasoned at full length every round, and every think block is logged raw in `kumi-provenance.jsonl`. Stripping affected parsing only — the guess is read from the post-think text — and `audit.py` verifies independently that no parsed guess ever originated inside a think block.
+3. **n = 5 is a pilot.** No systematic claims are made or implied. Scaling runs per condition is roadmap item #3.
 
 ## Files
 
