@@ -153,6 +153,16 @@ python3 audit2.py   # Campaign 2 — exits non-zero if any claim fails
 | `audit2.py` | Independent Campaign 2 auditor: replays `kumi2-provenance.jsonl` (no code shared with `kumi2.py`), adds the degenerate-lexicon check and the claimed-vs-clean compositional counts. |
 | `audit2-report.md` | Claim-by-claim PASS/FAIL table from `audit2.py` (**100/100**). |
 
+## Frontier campaigns (kumi6–kumi8) & Kai
+
+The same trustless protocol — pre-register → run once → append-only provenance → independent audit → stop-for-review — has since been applied to **frontier models**: `claude-sonnet-5` (Anthropic) × `gemini-3.5-flash` (Google), both cloud. For these campaigns the **harness/auditor source is private by design; pre-registrations, results, and audits are public** in this repository's issues:
+
+- **kumi6** — single novel word, frontier pair: [#9](https://github.com/jasonkkchua-1/kumi-station-protocol/issues/9).
+- **kumi7** — productive 3-slot grammar, 18-object world, elimination confound removed: pre-registration [#11](https://github.com/jasonkkchua-1/kumi-station-protocol/issues/11) · **results [#12](https://github.com/jasonkkchua-1/kumi-station-protocol/issues/12)** — held-out exact reconstruction **50/50 (100%), both directions** (chance ≈ 6%), independently audited.
+- **kumi8** — the **Scrambled Prior Test**: does frontier compositionality ride on English priors? Pre-registered before any run: [#13](https://github.com/jasonkkchua-1/kumi-station-protocol/issues/13). In progress; results publish here after the stop-for-review gate.
+
+**Kai** (解, *unravel*) is Kumi's mirror: it measures how *legible* an invented code is to an uninvited eavesdropper (pre-registration: [#4](https://github.com/jasonkkchua-1/kumi-station-protocol/issues/4)). Kai's method specification, Phase A results, and hash-chained result data are published at [jasonkkchua-1/kai-station](https://github.com/jasonkkchua-1/kai-station) (CC BY-NC; implementation private). Its E3 finding — a frontier eavesdropper could not crack this repository's 4B codes from interception alone — is summarised in [#12](https://github.com/jasonkkchua-1/kumi-station-protocol/issues/12). Kai measures observability only; no evasion methods are developed or published.
+
 ## Related work
 
 - Y. Talebirad et al., *ALIFE 2026* — [arXiv:2607.00233](https://arxiv.org/abs/2607.00233).
